@@ -12,32 +12,32 @@
     <link href="css/index.css" rel="stylesheet" />
 
     <script type="text/javascript">
-        //function myLocation() {
-        
-        //    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-        //};
-
-        //function onSuccess(position) {
-        //    var element = document.getElementById('geolocation');
-        //    element.innerHTML = 'Latitude: ' + position.coords.latitude + '<br />' +
-        //                        'Longitude: ' + position.coords.longitude + '<br />' +
-        //                        'Altitude: ' + position.coords.altitude + '<br />' +
-        //                        'Accuracy: ' + position.coords.accuracy + '<br />' +
-        //                        'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '<br />' +
-        //                        'Heading: ' + position.coords.heading + '<br />' +
-        //                        'Speed: ' + position.coords.speed + '<br />' +
-        //                        'Timestamp: ' + position.timestamp + '<br />';
-        //}
-
-        //// onError Callback receives a PositionError object
-        ////
-        //function onError(error) {
-        //    var element = document.getElementById('geolocation');
-        //    element.innerHTML = 'code: ' + error.code + '\n' +
-        //            'message: ' + error.message + '\n';
-        //}
-
         function myLocation() {
+        
+            navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        };
+
+        function onSuccess(position) {
+            var element = document.getElementById('geolocation');
+            element.innerHTML = 'Latitude: ' + position.coords.latitude + '<br />' +
+                                'Longitude: ' + position.coords.longitude + '<br />' +
+                                'Altitude: ' + position.coords.altitude + '<br />' +
+                                'Accuracy: ' + position.coords.accuracy + '<br />' +
+                                'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '<br />' +
+                                'Heading: ' + position.coords.heading + '<br />' +
+                                'Speed: ' + position.coords.speed + '<br />' +
+                                'Timestamp: ' + position.timestamp + '<br />';
+        }
+
+        // onError Callback receives a PositionError object
+        //
+        function onError(error) {
+            var element = document.getElementById('geolocation');
+            element.innerHTML = 'code: ' + error.code + '\n' +
+                    'message: ' + error.message + '\n';
+        }
+
+        function myLocation2() {
             var e = document.getElementById("geolocation");
             e.innerHTML = "Hello This is Function";
         }
@@ -47,6 +47,8 @@
 </head>
 <body>
     <h1>Hello to My App</h1>
+    <button onclick="myLocation2()">Click Me</button>
+
     <button onclick="myLocation()">Click Me</button>
    <div>
        <p id="geolocation"></p>
