@@ -29,8 +29,6 @@
                                 'Timestamp: ' + position.timestamp + '<br />';
         }
 
-        // onError Callback receives a PositionError object
-        //
         function onError(error) {
             var element = document.getElementById('geolocation');
             element.innerHTML = 'code: ' + error.code + '\n' +
@@ -42,6 +40,31 @@
             e.innerHTML = "Hello This is Function";
         }
 
+
+        function myLiveLocation() {
+
+            var options = { timeout: 30000 };
+            navigator.geolocation.watchPosition(onLiveSuccess, onLiveError, options);
+        };
+
+        function onLiveSuccess(position) {
+            var element = document.getElementById('livelocation');
+            element.innerHTML = 'Latitude: ' + position.coords.latitude + '<br />' +
+                                'Longitude: ' + position.coords.longitude + '<br />' +
+                                'Altitude: ' + position.coords.altitude + '<br />' +
+                                'Accuracy: ' + position.coords.accuracy + '<br />' +
+                                'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '<br />' +
+                                'Heading: ' + position.coords.heading + '<br />' +
+                                'Speed: ' + position.coords.speed + '<br />' +
+                                'Timestamp: ' + position.timestamp + '<br />';
+        }
+
+        function onLiveError(error) {
+            var element = document.getElementById('geolocation');
+            element.innerHTML = 'code: ' + error.code + '\n' +
+                    'message: ' + error.message + '\n';
+        }
+
     </script>
 
 </head>
@@ -50,9 +73,15 @@
     <button onclick="myLocation2()">Click Me</button>
 
     <button onclick="myLocation()">Click Me</button>
+
+    <button onclick="myLiveLocation()">Click Me</button>
    <div>
        <p id="geolocation"></p>
    </div>
+
+    <div>
+        <p id="livelocation"></p>
+    </div>
 
 
     <!-- Cordova reference, this is added to your app when it's built. -->
