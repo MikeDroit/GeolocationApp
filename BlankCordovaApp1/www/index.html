@@ -1,93 +1,137 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+    <title>Map</title>
 
-  <!--  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
-      <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
-    
-      <title>BlankCordovaApp1</title>
-
-    <!-- BlankCordovaApp1 references -->
     <link href="css/index.css" rel="stylesheet" />
 
+
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 100%;
+        }
+    </style>
+
+
+</head>
+<body>
+    <h3>Geolocation</h3>
+    <button onclick="Follow()">Follow Me!</button>
+    <div id="divCounter">NoData</div>
+    <div id="map"></div>
+
     <script type="text/javascript">
-        function myLocation() {
-        
-            navigator.geolocation.getCurrentPosition(onSuccess, onError);
-        };
+        var _Latitude;
+        var _Longitude;
+        var _Counter = 0;
+
+
+        function GetLocation() {
+           navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        }
 
         function onSuccess(position) {
-            var element = document.getElementById('geolocation');
-            element.innerHTML = 'Latitude: ' + position.coords.latitude + '<br />' +
-                                'Longitude: ' + position.coords.longitude + '<br />' +
-                                'Altitude: ' + position.coords.altitude + '<br />' +
-                                'Accuracy: ' + position.coords.accuracy + '<br />' +
-                                'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '<br />' +
-                                'Heading: ' + position.coords.heading + '<br />' +
-                                'Speed: ' + position.coords.speed + '<br />' +
-                                'Timestamp: ' + position.timestamp + '<br />';
+
+            _Latitude = position.coords.latitude;
+            _Longitude = position.coords.longitude;
+            MakeMap();
+
+            //var element = document.getElementById('geolocation');
+            //element.innerHTML = 'Latitude: ' + position.coords.latitude + '<br />' +
+            //                    'Longitude: ' + position.coords.longitude + '<br />' +
+            //                    'Altitude: ' + position.coords.altitude + '<br />' +
+            //                    'Accuracy: ' + position.coords.accuracy + '<br />' +
+            //                    'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '<br />' +
+            //                    'Heading: ' + position.coords.heading + '<br />' +
+            //                    'Speed: ' + position.coords.speed + '<br />' +
+            //                    'Timestamp: ' + position.timestamp + '<br />';
         }
 
         function onError(error) {
-            var element = document.getElementById('geolocation');
+            var element = document.getElementById('map');
             element.innerHTML = 'code: ' + error.code + '\n' +
                     'message: ' + error.message + '\n';
         }
 
-        function myLocation2() {
-            var e = document.getElementById("geolocation");
-            e.innerHTML = "Hello This is Function";
+        var map;
+        function initMap() {
+
+            GetLocation();
+        }
+
+        function MakeMap() {
+
+
+            _Counter = _Counter + 1;
+            var d = new Date();
+
+            document.getElementById("divCounter").innerHTML = _Counter.toString() + " (" + d.getHours() + " : " + d.getMinutes() + " : " + d.getSeconds() + ")";
+
+
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: _Latitude, lng: _Longitude },
+                zoom: 15
+            });
         }
 
 
-        function myLiveLocation() {
+
+        function Follow() {
 
             var options = { timeout: 30000 };
+            //var options = { timeout: 3000 };
             navigator.geolocation.watchPosition(onLiveSuccess, onLiveError, options);
         };
 
         function onLiveSuccess(position) {
-            var element = document.getElementById('livelocation');
-            element.innerHTML = 'Latitude: ' + position.coords.latitude + '<br />' +
-                                'Longitude: ' + position.coords.longitude + '<br />' +
-                                'Altitude: ' + position.coords.altitude + '<br />' +
-                                'Accuracy: ' + position.coords.accuracy + '<br />' +
-                                'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '<br />' +
-                                'Heading: ' + position.coords.heading + '<br />' +
-                                'Speed: ' + position.coords.speed + '<br />' +
-                                'Timestamp: ' + position.timestamp + '<br />';
+            _Latitude = position.coords.latitude;
+            _Longitude = position.coords.longitude;
+
+
+
+
+            MakeMap();
+            //centerMap();
+            //var element = document.getElementById('livelocation');
+            //element.innerHTML = 'Latitude: ' + position.coords.latitude + '<br />' +
+            //                    'Longitude: ' + position.coords.longitude + '<br />' +
+            //                    'Altitude: ' + position.coords.altitude + '<br />' +
+            //                    'Accuracy: ' + position.coords.accuracy + '<br />' +
+            //                    'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '<br />' +
+            //                    'Heading: ' + position.coords.heading + '<br />' +
+            //                    'Speed: ' + position.coords.speed + '<br />' +
+            //                    'Timestamp: ' + position.timestamp + '<br />';
         }
 
         function onLiveError(error) {
-            var element = document.getElementById('geolocation');
+            var element = document.getElementById('map');
             element.innerHTML = 'code: ' + error.code + '\n' +
                     'message: ' + error.message + '\n';
         }
 
+
+
     </script>
 
-</head>
-<body>
-    <h1>Hello to My App</h1>
-    <button onclick="myLocation2()">Click Me</button>
 
-    <button onclick="myLocation()">Click Me</button>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQp2IOjOrs4De5O58ivHH658gmSAdVUK8&callback=initMap">
+    </script>
 
-    <button onclick="myLiveLocation()">Click Me</button>
-   <div>
-       <p id="geolocation"></p>
-   </div>
-
-    <div>
-        <p id="livelocation"></p>
-    </div>
-
-
-    <!-- Cordova reference, this is added to your app when it's built. -->
     <script src="cordova.js"></script>
     <script src="scripts/platformOverrides.js"></script>
 
     <script src="scripts/index.js"></script>
 </body>
+
+
 </html>
